@@ -13,15 +13,21 @@ class TurnAway(Node):
 
     def __init__(self):
         super().__init__("turn_away")
+        self.declare_parameter("forward_speed", 0.2)
+        self.declare_parameter("turn_speed", 0.5)
+
         self.cmd_vel = self.create_publisher(Twist, "cmd_vel", 10)
         self.create_subscription(ObstacleInfo, "obstacle", self.on_obstacle, 10)
 
     def on_obstacle(self, msg):
+        forward_speed = self.get_parameter("forward_speed").value
+        turn_speed = self.get_parameter("turn_speed").value
+
         twist = Twist()
         if msg.too_close:
-            twist.angular.z = -0.5 if msg.angle > 0.0 else 0.5
+            twist.angular.z = -turn_speed if msg.angle > 0.0 else turn_speed
         else:
-            twist.linear.x = 0.2
+            twist.linear.x = forward_speed
         self.cmd_vel.publish(twist)
 
 

@@ -178,5 +178,10 @@ The exercise submission includes:
 
 1. An RViz screenshot showing the depth image, point cloud, and TF frames
    including `depth_camera_link` and `imu_link`.
+
+   https://drive.google.com/file/d/1DdbC-N7BMtV0jzTHZo5UDbsw7zuAtuC6/view?usp=sharing
+
+   https://drive.google.com/file/d/1wrG8iVFh6gHrZtkUJkdFMgm-AkQohdbe/view?usp=sharing
 2. An `rqt_graph` screenshot taken while `square.launch.py` is running,
    showing the square driver and both action connections.
+https://drive.google.com/file/d/1gV4sOU_c3nCfK4VVzKSGIOC6GZRBhl1C/view?usp=sharing

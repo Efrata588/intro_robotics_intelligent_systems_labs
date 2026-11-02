@@ -10,6 +10,7 @@ setup(
     data_files=[
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
+        ("share/" + package_name + "/launch", ["launch/square.launch.py"]),
     ],
     install_requires=["setuptools"],
     zip_safe=True,
@@ -21,6 +22,7 @@ setup(
         "console_scripts": [
             "turn_away = my_robot_nodes.turn_away:main",
             "rotate_server = my_robot_nodes.rotate_server:main",
+            "square_driver = my_robot_nodes.square_driver:main",
         ],
     },
 )

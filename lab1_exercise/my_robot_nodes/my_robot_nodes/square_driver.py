@@ -4,6 +4,7 @@
 import rclpy
 from action_msgs.msg import GoalStatus
 from geometry_msgs.msg import Twist
+from nav_msgs.msg import Odometry
 from rclpy.action import ActionClient
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
@@ -20,6 +21,15 @@ class SquareDriver(Node):
         self.drive_client = ActionClient(self, DriveDistance, "drive_distance")
         self.rotate_client = ActionClient(self, Rotate, "rotate")
         self.cmd_vel = self.create_publisher(Twist, "cmd_vel", 10)
+        self.odom_ready = False
+        self.create_subscription(Odometry, "odom", self.on_odom, 10)
+
+    def on_odom(self, _msg):
+        self.odom_ready = True
+
+    def wait_for_odometry(self):
+        while rclpy.ok() and not self.odom_ready:
+            rclpy.spin_once(self, timeout_sec=0.1)
 
     def send_drive(self, distance):
         self.drive_client.wait_for_server()
@@ -51,6 +61,7 @@ class SquareDriver(Node):
 
     def run_square(self):
         side_length = self.get_parameter("side_length").value
+        self.wait_for_odometry()
         for side in range(1, 5):
             drive_result = self.send_drive(side_length)
             if drive_result is None or drive_result.status != GoalStatus.STATUS_SUCCEEDED:
